@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>บันทึกข้อมูลพนักงาน</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; padding: 50px; background-color: #fce4ec; }
+        .card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 320px; }
+        h2 { text-align: center; color: #333; }
+        label { display: block; margin-top: 15px; font-weight: bold; font-size: 14px; }
+        input, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; background-color: #28a745; color: white; border: none; padding: 12px; margin-top: 25px; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background-color: #218838; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>บันทึกข้อมูลพนักงาน</h2>
+        <form>
+            <label>Full Name</label> <input type="text">
+            <label>Email</label> <input type="email">
+            <label>Position</label>
+            <select>
+                <option>Manager</option>
+                <option>Developer</option>
+                <option>Staff</option>
+            </select>
+            <label>Phone Number</label> <input type="text">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
