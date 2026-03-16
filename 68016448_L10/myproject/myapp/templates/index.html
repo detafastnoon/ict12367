@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="display-4 fw-bold">Penguin Gallery</h1>
+        <p class="text-muted">สัตว์ที่น่ารักและสง่างาม</p>
+    </div>
+
+    <div class="custom-grid">
+        <img src="{% static 'img/penguin1.webp' %}" class="gallery-img" alt="Penguin 1">
+        <img src="{% static 'img/penguin2.png' %}" class="gallery-img" alt="Penguin 2">
+        <img src="{% static 'img/penguin3.jpg' %}" class="gallery-img" alt="Penguin 3">
+        <img src="{% static 'img/penguin4.jpg' %}" class="gallery-img" alt="Penguin 4">
+        <img src="{% static 'img/penguin5.jpg' %}" class="gallery-img" alt="Penguin 5">
+        <img src="{% static 'img/penguin6.jpg' %}" class="gallery-img" alt="Penguin 6">
+        <img src="{% static 'img/penguin7.webp' %}" class="gallery-img" alt="Penguin 7">
+        <img src="{% static 'img/penguin8.jpg' %}" class="gallery-img" alt="Penguin 8">
+        <img src="{% static 'img/penguin9.webp' %}" class="gallery-img" alt="Penguin 9">
+    </div>
+</div>
+{% endblock %}
