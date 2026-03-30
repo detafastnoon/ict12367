@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบจัดการข้อมูลประชากร</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Sarabun', sans-serif;
+            /* เพิ่มพื้นหลังธรรมชาติ */
+            background-image: url('https://i0.wp.com/picjumbo.com/wp-content/uploads/green-natural-background-with-wooden-surface-free-image.jpeg?w=2210&quality=70');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* ล็อกพื้นหลังไว้เมื่อเลื่อนหน้าจอ */
+            min-height: 100vh;
+        }
+
+        /* เพิ่ม Overlay จางๆ เพื่อให้เนื้อหาอ่านง่ายขึ้น */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.2); /* ปรับความจางของพื้นหลัง */
+            z-index: -1;
+        }
+
+        .header-title {
+            color: #6f42c1;
+            font-weight: bold;
+        }
+
+        .btn-purple {
+            background-color: #6f42c1;
+            color: white;
+        }
+
+        .btn-purple:hover {
+            background-color: #5a32a3;
+            color: white;
+        }
+
+        /* ปรับ Card ให้ดูทันสมัยและโปร่งแสงเล็กน้อย */
+        .card {
+            border: none;
+            border-radius: 12px;
+            background-color: rgba(255, 255, 255, 0.9); /* สีขาวโปร่งแสง 90% */
+            backdrop-filter: blur(5px); /* เพิ่มเอฟเฟกต์เบลอพื้นหลัง */
+        }
+
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm mb-4">
+        <div class="container">
+            <a class="navbar-brand header-title" href="/">[LOGO] ระบบประชากร</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">หน้าแรก</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/form/">บริการ (Form)</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        
+        <div class="row mb-4 align-items-center">
+            <div class="col-lg-5 col-md-12">
+                <h2 class="header-title m-0 p-2 d-inline-block rounded">รายชื่อประชากรในระบบ</h2>
+            </div>
+            <div class="col-lg-7 col-md-12">
+                <div class="d-flex flex-column flex-md-row gap-2 justify-content-md-end mt-3 mt-lg-0">
+                    
+                    <form action="/" method="GET" class="d-flex gap-2">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control form-control-sm" 
+                                   placeholder="ค้นหาชื่อ..." value="{{ search_query|default:'' }}">
+                            <button type="submit" class="btn btn-purple btn-sm">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                        {% if search_query %}
+                        <a href="/" class="btn btn-outline-secondary btn-sm bg-white">ล้าง</a>
+                        {% endif %}
+                    </form>
+                    
+                    <div class="vr d-none d-md-block mx-1"></div>
+
+                    <a href="/form/" class="btn btn-primary btn-sm d-flex align-items-center justify-content-center shadow-sm">
+                        <i class="bi bi-plus-lg me-1"></i> เพิ่มข้อมูล
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {% if search_query %}
+        <div class="mb-3">
+            <span class="badge bg-white text-dark border">
+                <i class="bi bi-info-circle me-1 text-primary"></i> ผลการค้นหาสำหรับ: "{{ search_query }}"
+            </span>
+        </div>
+        {% endif %}
+
+        <div class="card shadow">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover m-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col" class="text-center" style="width: 10%;">ลำดับที่</th>
+                                <th scope="col">ชื่อประชากร</th>
+                                <th scope="col" class="text-center">อายุ</th>
+                                <th scope="col">วันที่บันทึก</th> 
+                                <th scope="col" class="text-center">จัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for person in all_person %}
+                            <tr>
+                                <td class="text-center fw-bold text-muted">{{ forloop.counter }}</td> 
+                                <td>{{ person.name }}</td> 
+                                <td class="text-center">{{ person.age }} ปี</td>
+                                <td>{{ person.date }}</td> 
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        <a href="/edit/{{ person.id }}/" class="btn btn-outline-warning btn-sm">
+                                            แก้ไข
+                                        </a>
+                                        <a href="/delete/{{ person.id }}/" 
+                                           class="btn btn-outline-danger btn-sm"
+                                           onclick="return confirm('คุณแน่ใจหรือไม่ที่จะลบข้อมูลของ {{ person.name }}?');">
+                                            ลบ
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-muted">
+                                    <i class="bi bi-database-exclamation d-block mb-2" style="font-size: 2rem;"></i>
+                                    ไม่พบข้อมูลประชากรในระบบ
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
